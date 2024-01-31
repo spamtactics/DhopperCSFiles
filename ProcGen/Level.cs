@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -14,15 +13,9 @@ public class LevelGeneration : MonoBehaviour {
   [SerializeField]
   private GameObject character;
 
-  [SerializeField]
-  private GameObject parent;
-
-  private float prevX = 0;
-  private float prevZ = 0;
-
 
   void Start() {
-      GenerateMap();
+    GenerateMap();
   }
 
   void GenerateMap() {
@@ -38,7 +31,7 @@ public class LevelGeneration : MonoBehaviour {
           this.gameObject.transform.position.y, 
           this.gameObject.transform.position.z + zTileIndex * tileDepth);
         // instantiate a new Tile
-        GameObject tile = Instantiate (tilePrefab, tilePosition, Quaternion.identity, parent) as GameObject;
+        GameObject tile = Instantiate (tilePrefab, tilePosition, Quaternion.identity) as GameObject;
               }
     }
   }

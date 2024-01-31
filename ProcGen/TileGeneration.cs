@@ -25,14 +25,13 @@ public class TileGeneration : MonoBehaviour
     private float heightMultiplier;
 
     [SerializeField]
-    private Collider box;
+    private Collider wall;
 
     [SerializeField]
-    private GameObject tile;
+    private GameObject structure;
 
     void Start()
     {
-        box.isTrigger = true;
         generateTile();
     }
 
@@ -74,35 +73,11 @@ public class TileGeneration : MonoBehaviour
         // generate a heightMap using noise
         float[,] heightMap = this.generation.GenerateNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ);
         // build a Texture2D from the height map
-        Texture2D tileTexture = BuildTexture (heightMap);
-        this.tileRenderer.material.mainTexture = tileTexture;
         // update the tile mesh vertices according to the height map
         updateVertices(heightMap, this.heightMultiplier);
     }
 
-    private Texture2D BuildTexture(float[,] heightMap){
-
-        int tileDepth = heightMap.GetLength(0);
-        int tileWidth = heightMap.GetLength(1);
-
-        Color[] colourMap = new Color[tileWidth*tileDepth];
-
-        for(int i = 0; i < tileDepth; i++){
-            for(int j = 0; j < tileWidth; j++){
-                int colourIndex = i*tileWidth + j;
-                float height = heightMap[i, j];
-
-                colourMap[colourIndex] = Color.Lerp(Color.black, Color.white, height);
-
-            }
-        }
-
-        Texture2D tileTexture = new Texture2D(tileWidth, tileDepth);
-        tileTexture.wrapMode = TextureWrapMode.Clamp;
-        tileTexture.SetPixels(colourMap);
-        tileTexture.Apply();
-        return tileTexture;
-    }
+   
 
     // Update is called once per frame
     void Update()
